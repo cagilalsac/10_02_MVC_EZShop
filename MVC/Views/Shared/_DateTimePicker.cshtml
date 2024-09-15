@@ -1,0 +1,16 @@
+﻿@* https://xdsoft.net/jqplugins/datetimepicker *@
+<link rel="stylesheet" href="~/lib/jquery-datetimepicker/jquery.datetimepicker.min.css" />
+<script src="~/lib/jquery-datetimepicker/jquery.datetimepicker.full.min.js"></script>
+
+<script>
+	$(function () {
+		$('.datetimepicker').datetimepicker({
+			timepicker: true,
+			format: 'm/d/Y H:i:s'
+		});
+		$('.datepicker').datetimepicker({
+			timepicker: false,
+			format: 'm/d/Y'
+		});
+	});
+</script>

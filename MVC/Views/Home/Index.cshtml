@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    string title = AppSettings.Title;
+    var description = AppSettings.Description;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to @title</h1>
+    <h3>@description</h3>
+</div>

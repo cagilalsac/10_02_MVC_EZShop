@@ -1,0 +1,41 @@
+﻿@model PageModel
+
+@{
+    var recordsPerPageCounts = new SelectList(Model.RecordsPerPageCounts);
+    var pageNumbers = new SelectList(Model.PageNumbers);
+}
+
+<div class="row mb-3">
+    <div class="col-4 text-success pt-1">
+        @Model.TotalRecordsCount record(s) found.
+    </div>
+    <div class="col-2 pt-1 text-end text-black">
+        <label asp-for="RecordsPerPageCount"></label>
+    </div>
+    <div class="col-2">
+        <select asp-for="RecordsPerPageCount" class="form-select" asp-items="recordsPerPageCounts" onchange="recordsPerPageCountChanged();" id="recordsperpagecount"></select>
+    </div>
+    <div class="col-2 pt-1 text-end text-black">
+        <label asp-for="PageNumber"></label>
+    </div>
+    <div class="col-2">
+        <div class="input-group">
+            <select asp-for="PageNumber" class="form-select" asp-items="pageNumbers" onchange="pageNumberChanged();" id="pagenumber"></select>
+            <span class="input-group-text">@(" / " + pageNumbers.Count())</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function recordsPerPageCountChanged() {
+        var form = document.getElementsByTagName("form")[0];
+        var pageNumber = document.getElementById("pagenumber");
+        pageNumber.value = "1";
+        form.submit();
+    }
+
+    function pageNumberChanged() {
+        var form = document.getElementsByTagName("form")[0];
+        form.submit();
+    }
+</script>

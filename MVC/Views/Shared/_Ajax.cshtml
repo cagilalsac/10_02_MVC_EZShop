@@ -1,0 +1,13 @@
+﻿<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    function ajaxLoadSelect(targetElement, requestUrl, requestData) {
+        $(targetElement).empty();
+        $.getJSON(requestUrl, requestData, function (responseData) {
+            $(targetElement).append('<option value="">-- Select --</option>');
+            for (const responseItem of responseData) {
+                $(targetElement).append('<option value="' + responseItem.value + '">' + responseItem.text + '</option>');
+            }
+        });
+    }
+</script>
