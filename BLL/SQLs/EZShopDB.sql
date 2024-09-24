@@ -17,7 +17,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Categories](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](max) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
 	[Description] [nvarchar](max) NULL,
  CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED 
 (
@@ -32,7 +32,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Products](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
+	[Name] [nvarchar](150) NOT NULL,
 	[UnitPrice] [decimal](18, 2) NOT NULL,
 	[StockAmount] [int] NULL,
 	[ExpirationDate] [datetime2](7) NULL,
@@ -79,7 +79,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Stores](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](150) NOT NULL,
+	[Name] [nvarchar](200) NOT NULL,
 	[IsVirtual] [bit] NOT NULL,
 	[CountryId] [int] NULL,
 	[CityId] [int] NULL,
