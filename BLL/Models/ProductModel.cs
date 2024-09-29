@@ -32,7 +32,7 @@ namespace BLL.Models
         [DisplayName("Stores")]
         public List<int> StoreIds 
         { 
-            get => Record.ProductStores.Select(ps => ps.StoreId).ToList();
+            get => Record.ProductStores?.Select(ps => ps.StoreId).ToList();
             set => Record.ProductStores = value.Select(v => new ProductStore() { StoreId = v }).ToList();
         }
     }
