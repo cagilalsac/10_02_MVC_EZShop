@@ -29,6 +29,10 @@ namespace BLL.Services
 
         public Service Create(Product product)
         {
+            if ((product.StockAmount ?? 0) < 0)
+                return Error("Stock amount must be a positive number!");
+            if (product.UnitPrice < 0 || product.UnitPrice > 100000)
+                return Error("Unit price must be between 0 and 100000!");
             if (_db.Products.Any(p => p.Name.ToUpper() == product.Name.ToUpper().Trim()))
                 return Error("Product with the same name exists!");
             product.Name = product.Name.Trim();
@@ -39,6 +43,10 @@ namespace BLL.Services
 
         public Service Update(Product product)
         {
+            if ((product.StockAmount ?? 0) < 0)
+                return Error("Stock amount must be a positive number!");
+            if (product.UnitPrice < 0 || product.UnitPrice > 100000)
+                return Error("Unit price must be between 0 and 100000!");
             if (_db.Products.Any(p => p.Id != product.Id && p.Name.ToUpper() == product.Name.ToUpper().Trim()))
                 return Error("Product with the same name exists!");
             var entity = _db.Products.Include(p => p.ProductStores).SingleOrDefault(p => p.Id == product.Id);
