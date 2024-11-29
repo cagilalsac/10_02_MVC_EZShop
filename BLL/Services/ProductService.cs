@@ -5,17 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
-    public interface IProductService
-    {
-        public IQueryable<ProductModel> Query();
-        public Service Create(Product product);
-        public Service Update(Product product);
-        public Service Delete(int id);
-
-        public List<ProductModel> GetList(PageModel pageModel);
-    }
-
-    public class ProductService : Service, IProductService
+    public class ProductService : Service, IService<Product, ProductModel>
     {
         public ProductService(Db db) : base(db)
         {

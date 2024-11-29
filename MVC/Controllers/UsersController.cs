@@ -1,14 +1,15 @@
 ﻿#nullable disable
+using BLL.Controllers.Bases;
+using BLL.DAL;
+using BLL.Models;
+using BLL.Services;
+using BLL.Services.Bases;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using BLL.Controllers.Bases;
-using BLL.Services;
-using BLL.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
-using BLL.DAL;
 
 // Generated from Custom Template.
 
@@ -18,25 +19,25 @@ namespace MVC.Controllers
     public class UsersController : MvcController
     {
         // Service injections:
-        private readonly IUserService _userService;
-        private readonly IRoleService _roleService;
+        private readonly IService<User, UserModel> _userService;
+        private readonly IService<Role, RoleModel> _roleService;
 
-        /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        //private readonly IManyToManyRecordService _ManyToManyRecordService;
+        /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+        //private readonly IService<{Entity}, {Entity}Model> _{Entity}Service;
 
         public UsersController(
-			IUserService userService
-            , IRoleService roleService
+            IService<User, UserModel> userService
+            , IService<Role, RoleModel> roleService
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //, IManyToManyRecordService ManyToManyRecordService
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //, IService<{Entity}, {Entity}Model> {Entity}Service
         )
         {
             _userService = userService;
             _roleService = roleService;
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //_ManyToManyRecordService = ManyToManyRecordService;
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //_{Entity}Service = {Entity}Service;
         }
 
         [AllowAnonymous]
@@ -50,23 +51,24 @@ namespace MVC.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(UserModel user)
         {
+            ModelState.Remove("Record.RoleId");
             if (ModelState.IsValid)
             {
-                var result = _userService.Login(user.Record);
-                if (result.IsSuccessful)
+                var existingUser = _userService.Query().SingleOrDefault(q => q.Record.UserName == user.Record.UserName && q.Record.Password == user.Record.Password && q.Record.IsActive);
+                if (existingUser is not null)
                 {
                     List<Claim> claims = new List<Claim>()
                     {
-                        new Claim(ClaimTypes.Sid, _userService.LoggedInUser.Record.Id.ToString()),
-                        new Claim(ClaimTypes.Name, _userService.LoggedInUser.UserName),
-                        new Claim(ClaimTypes.Role, _userService.LoggedInUser.Role)
+                        new Claim("Id", existingUser.Record.Id.ToString()),
+                        new Claim(ClaimTypes.Name, existingUser.UserName),
+                        new Claim(ClaimTypes.Role, existingUser.Role)
                     };
                     ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     ClaimsPrincipal principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(principal);
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", result.Message);
+                ModelState.AddModelError("", "Invalid user name or password!");
             }
             return View();
         }
@@ -89,9 +91,11 @@ namespace MVC.Controllers
         [AllowAnonymous]
         public IActionResult Register(UserModel user)
         {
+            ModelState.Remove("Record.RoleId");
             if (ModelState.IsValid)
             {
-                var result = _userService.Register(user.Record);
+                var userService = _userService as UserService;
+                var result = userService.Register(user.Record);
                 if (result.IsSuccessful)
                 {
                     TempData["Message"] = result.Message;
@@ -123,8 +127,8 @@ namespace MVC.Controllers
             // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
             ViewData["RoleId"] = new SelectList(_roleService.Query().ToList(), "Record.Id", "RoleName");
             
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //ViewBag.ManyToManyRecordIds = new MultiSelectList(_ManyToManyRecordService.Query().ToList(), "Record.Id", "Name");
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //ViewBag.{Entity}Ids = new MultiSelectList(_{Entity}Service.Query().ToList(), "Record.Id", "Name");
         }
 
         // GET: Users/Create

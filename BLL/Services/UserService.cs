@@ -5,22 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
-    public interface IUserService
+    public class UserService : Service, IService<User, UserModel>
     {
-        public UserModel LoggedInUser { get; set; }
-        public Service Register(User user);
-        public Service Login(User user);
-
-        public IQueryable<UserModel> Query();
-        public Service Create(User user);
-        public Service Update(User user);
-        public Service Delete(int id);
-    }
-
-    public class UserService : Service, IUserService
-    {
-        public UserModel LoggedInUser { get; set; }
-
         public UserService(Db db) : base(db)
         {
         }
@@ -36,18 +22,6 @@ namespace BLL.Services
             _db.Users.Add(user);
             _db.SaveChanges();
             return Success("User registered successfully.");
-        }
-
-        public Service Login(User user)
-        {
-            var entity = _db.Users.Include(u => u.Role).SingleOrDefault(u => u.UserName == user.UserName && u.Password == user.Password && u.IsActive);
-            if (entity is null)
-                return Error("Invalid user name and password!");
-            LoggedInUser = new UserModel()
-            {
-                Record = entity
-            };
-            return Success("User logged in successfully.");
         }
 
         public IQueryable<UserModel> Query()

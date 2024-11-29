@@ -16,7 +16,7 @@ namespace MVC.Controllers
             _cartService = cartService;
         }
 
-        private int GetUserId() => Convert.ToInt32(User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+        private int GetUserId() => Convert.ToInt32(User.Claims.SingleOrDefault(c => c.Type == "Id").Value);
 
         // GET: Cart
         public IActionResult Index()

@@ -3,6 +3,7 @@ using BLL.Controllers.Bases;
 using BLL.DAL;
 using BLL.Models;
 using BLL.Services;
+using BLL.Services.Bases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,35 +16,35 @@ namespace MVC.Controllers
     public class StoresController : MvcController
     {
         // Service injections:
-        private readonly IStoreService _storeService;
-        private readonly ICityService _cityService;
-        private readonly ICountryService _countryService;
+        private readonly IService<Store, StoreModel> _storeService;
+        private readonly IService<City, CityModel> _cityService;
+        private readonly IService<Country, CountryModel> _countryService;
 
-        /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        //private readonly IManyToManyRecordService _ManyToManyRecordService;
+        /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+        //private readonly IService<{Entity}, {Entity}Model> _{Entity}Service;
 
         public StoresController(
-			IStoreService storeService
-            , ICityService cityService
-            , ICountryService countryService
+            IService<Store, StoreModel> storeService
+            , IService<City, CityModel> cityService
+            , IService<Country, CountryModel> countryService
 
-        /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        //, IManyToManyRecordService ManyToManyRecordService
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //, IService<{Entity}, {Entity}Model> {Entity}Service
         )
         {
             _storeService = storeService;
             _cityService = cityService;
             _countryService = countryService;
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //_ManyToManyRecordService = ManyToManyRecordService;
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //_{Entity}Service = {Entity}Service;
         }
 
         // GET: Stores
         public IActionResult Index()
         {
             // Get collection service logic:
-            var list = _storeService.GetList();
+            var list = _storeService.Query().ToList();
             return View(list);
         }
 
@@ -51,18 +52,19 @@ namespace MVC.Controllers
         public IActionResult Details(int id)
         {
             // Get item service logic:
-            var item = _storeService.GetItem(id);
+            var item = _storeService.Query().SingleOrDefault(q => q.Record.Id == id);
             return View(item);
         }
 
         protected void SetViewData(int? countryId = null)
         {
             // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
-            ViewData["CityId"] = new SelectList(_cityService.GetList(countryId), "Record.Id", "Name");
+            var cityService = _cityService as CityService;
+            ViewData["CityId"] = new SelectList(cityService.GetList(countryId), "Record.Id", "Name");
             ViewData["CountryId"] = new SelectList(_countryService.Query().ToList(), "Record.Id", "Name");
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //ViewBag.ManyToManyRecordIds = new MultiSelectList(_ManyToManyRecordService.Query().ToList(), "Record.Id", "Name");
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //ViewBag.{Entity}Ids = new MultiSelectList(_{Entity}Service.Query().ToList(), "Record.Id", "Name");
         }
 
         // GET: Stores/Create
@@ -103,7 +105,7 @@ namespace MVC.Controllers
         public IActionResult Edit(int id)
         {
             // Get item to edit service logic:
-            var item = _storeService.GetItem(id);
+            var item = _storeService.Query().SingleOrDefault(q => q.Record.Id == id);
             SetViewData(item.Record.CountryId);
             return View(item);
         }
@@ -132,7 +134,7 @@ namespace MVC.Controllers
         public IActionResult Delete(int id)
         {
             // Get item to delete service logic:
-            var item = _storeService.GetItem(id);
+            var item = _storeService.Query().SingleOrDefault(q => q.Record.Id == id);
             return View(item);
         }
 

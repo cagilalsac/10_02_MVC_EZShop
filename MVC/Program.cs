@@ -1,6 +1,7 @@
 using BLL.DAL;
 using BLL.Models;
 using BLL.Services;
+using BLL.Services.Bases;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +13,13 @@ builder.Services.AddControllersWithViews();
 // EZ-Shop Configuration:
 builder.Services.AddDbContext<Db>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Db")));
 builder.Configuration.GetSection(nameof(AppSettings)).Bind(new AppSettings());
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IStoreService, StoreService>();
-builder.Services.AddScoped<ICountryService, CountryService>();
-builder.Services.AddScoped<ICityService, CityService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IService<Category, CategoryModel>, CategoryService>();
+builder.Services.AddScoped<IService<Store, StoreModel>, StoreService>();
+builder.Services.AddScoped<IService<Country, CountryModel>, CountryService>();
+builder.Services.AddScoped<IService<City, CityModel>, CityService>();
+builder.Services.AddScoped<IService<Product, ProductModel>, ProductService>();
+builder.Services.AddScoped<IService<User, UserModel>, UserService>();
+builder.Services.AddScoped<IService<Role, RoleModel>, RoleService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

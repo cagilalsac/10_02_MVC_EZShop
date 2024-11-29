@@ -1,6 +1,4 @@
-﻿#nullable disable
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace BLL.Models
 {

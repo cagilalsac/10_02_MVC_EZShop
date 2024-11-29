@@ -1,21 +1,11 @@
-﻿#nullable disable
-
-using BLL.DAL;
+﻿using BLL.DAL;
 using BLL.Models;
 using BLL.Services.Bases;
 using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
-    public interface ICountryService
-    {
-        public IQueryable<CountryModel> Query();
-        public Service Create(Country country);
-        public Service Update(Country country);
-        public Service Delete(int id);
-    }
-
-    public class CountryService : Service, ICountryService
+    public class CountryService : Service, IService<Country, CountryModel>
     {
         public CountryService(Db db) : base(db)
         {

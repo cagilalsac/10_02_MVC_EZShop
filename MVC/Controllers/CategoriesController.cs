@@ -1,7 +1,8 @@
 ﻿#nullable disable
 using BLL.Controllers.Bases;
+using BLL.DAL;
 using BLL.Models;
-using BLL.Services;
+using BLL.Services.Bases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,22 +13,22 @@ namespace MVC.Controllers
     public class CategoriesController : MvcController
     {
         // Service injections:
-        private readonly ICategoryService _categoryService;
+        private readonly IService<Category, CategoryModel> _categoryService;
 
-        /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        //private readonly IManyToManyRecordService _ManyToManyRecordService;
+        /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+        //private readonly IService<{Entity}, {Entity}Model> _{Entity}Service;
 
         public CategoriesController(
-			ICategoryService categoryService
+            IService<Category, CategoryModel> categoryService
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //, IManyToManyRecordService ManyToManyRecordService
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //, IService<{Entity}, {Entity}Model> {Entity}Service
         )
         {
             _categoryService = categoryService;
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //_ManyToManyRecordService = ManyToManyRecordService;
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //_{Entity}Service = {Entity}Service;
         }
 
         // GET: Categories
@@ -52,8 +53,8 @@ namespace MVC.Controllers
         {
             // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
             
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //ViewBag.ManyToManyRecordIds = new MultiSelectList(_ManyToManyRecordService.Query().ToList(), "Record.Id", "Name");
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //ViewBag.{Entity}Ids = new MultiSelectList(_{Entity}Service.Query().ToList(), "Record.Id", "Name");
         }
 
         // GET: Categories/Create

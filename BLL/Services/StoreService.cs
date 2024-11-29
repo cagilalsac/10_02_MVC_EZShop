@@ -5,18 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
-    public interface IStoreService
-    {
-        public IQueryable<StoreModel> Query();
-        public Service Create(Store store);
-        public Service Update(Store store);
-        public Service Delete(int id);
-
-        public List<StoreModel> GetList() => Query().ToList();
-        public StoreModel GetItem(int id) => Query().SingleOrDefault(q => q.Record.Id == id);
-    }
-
-    public class StoreService : Service, IStoreService
+    public class StoreService : Service, IService<Store, StoreModel>
     {
         protected override string OperationFailed => "Invalid operation!";
 

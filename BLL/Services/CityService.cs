@@ -1,23 +1,11 @@
-﻿#nullable disable
-
-using BLL.DAL;
+﻿using BLL.DAL;
 using BLL.Models;
 using BLL.Services.Bases;
 using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
-    public interface ICityService
-    {
-        public IQueryable<CityModel> Query();
-        public Service Create(City city);
-        public Service Update(City city);
-        public Service Delete(int id);
-
-        public List<CityModel> GetList(int? countryId);
-    }
-
-    public class CityService : Service, ICityService
+    public class CityService : Service, IService<City, CityModel>
     {
         public CityService(Db db) : base(db)
         {

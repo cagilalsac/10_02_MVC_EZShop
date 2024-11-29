@@ -1,10 +1,10 @@
 ﻿#nullable disable
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using BLL.Controllers.Bases;
-using BLL.Services;
+using BLL.DAL;
 using BLL.Models;
+using BLL.Services.Bases;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 // Generated from Custom Template.
 
@@ -14,22 +14,22 @@ namespace MVC.Controllers
     public class RolesController : MvcController
     {
         // Service injections:
-        private readonly IRoleService _roleService;
+        private readonly IService<Role, RoleModel> _roleService;
 
-        /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        //private readonly IManyToManyRecordService _ManyToManyRecordService;
+        /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+        //private readonly IService<{Entity}, {Entity}Model> _{Entity}Service;
 
         public RolesController(
-			IRoleService roleService
+            IService<Role, RoleModel> roleService
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //, IManyToManyRecordService ManyToManyRecordService
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //, IService<{Entity}, {Entity}Model> {Entity}Service
         )
         {
             _roleService = roleService;
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //_ManyToManyRecordService = ManyToManyRecordService;
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //_{Entity}Service = {Entity}Service;
         }
 
         // GET: Roles
@@ -52,8 +52,8 @@ namespace MVC.Controllers
         {
             // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
             
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //ViewBag.ManyToManyRecordIds = new MultiSelectList(_ManyToManyRecordService.Query().ToList(), "Record.Id", "Name");
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //ViewBag.{Entity}Ids = new MultiSelectList(_{Entity}Service.Query().ToList(), "Record.Id", "Name");
         }
 
         // GET: Roles/Create

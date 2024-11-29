@@ -1,7 +1,9 @@
 ﻿#nullable disable
 using BLL.Controllers.Bases;
+using BLL.DAL;
 using BLL.Models;
 using BLL.Services;
+using BLL.Services.Bases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,24 +16,24 @@ namespace MVC.Controllers
     public class ProductsController : MvcController
     {
         // Service injections:
-        private readonly IProductService _productService;
-        private readonly ICategoryService _categoryService;
+        private readonly IService<Product, ProductModel> _productService;
+        private readonly IService<Category, CategoryModel> _categoryService;
 
-        /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        private readonly IStoreService _storeService;
+        /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+        private readonly IService<Store, StoreModel> _storeService;
 
         public ProductsController(
-			IProductService productService
-            , ICategoryService categoryService
+            IService<Product, ProductModel> productService
+            , IService<Category, CategoryModel> categoryService
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            , IStoreService storeService
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            , IService<Store, StoreModel> storeService
         )
         {
             _productService = productService;
             _categoryService = categoryService;
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
             _storeService = storeService;
         }
 
@@ -40,7 +42,8 @@ namespace MVC.Controllers
         public IActionResult Index(PageModel pageModel)
         {
             // Get collection service logic:
-            var list = _productService.GetList(pageModel);
+            var productService = _productService as ProductService;
+            var list = productService.GetList(pageModel);
             ViewBag.PageModel = pageModel;
             return View(list);
         }
@@ -58,7 +61,7 @@ namespace MVC.Controllers
             // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
             ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Record.Id", "Name");
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
             ViewBag.StoreIds = new MultiSelectList(_storeService.Query().ToList(), "Record.Id", "Name");
         }
 

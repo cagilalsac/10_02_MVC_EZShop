@@ -5,15 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
-    public interface IRoleService
-    {
-        public IQueryable<RoleModel> Query();
-        public Service Create(Role role);
-        public Service Update(Role role);
-        public Service Delete(int id);
-    }
-
-    public class RoleService : Service, IRoleService
+    public class RoleService : Service, IService<Role, RoleModel>
     {
         public RoleService(Db db) : base(db)
         {

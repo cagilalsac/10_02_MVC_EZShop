@@ -1,10 +1,12 @@
 ﻿#nullable disable
+using BLL.Controllers.Bases;
+using BLL.DAL;
+using BLL.Models;
+using BLL.Services;
+using BLL.Services.Bases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using BLL.Controllers.Bases;
-using BLL.Services;
-using BLL.Models;
-using Microsoft.AspNetCore.Authorization;
 
 // Generated from Custom Template.
 
@@ -14,25 +16,25 @@ namespace MVC.Controllers
     public class CitiesController : MvcController
     {
         // Service injections:
-        private readonly ICityService _cityService;
-        private readonly ICountryService _countryService;
+        private readonly IService<City, CityModel> _cityService;
+        private readonly IService<Country, CountryModel> _countryService;
 
-        /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        //private readonly IManyToManyRecordService _ManyToManyRecordService;
+        /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+        //private readonly IService<{Entity}, {Entity}Model> _{Entity}Service;
 
         public CitiesController(
-			ICityService cityService
-            , ICountryService countryService
+            IService<City, CityModel> cityService
+            , IService<Country, CountryModel> countryService
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //, IManyToManyRecordService ManyToManyRecordService
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //, IService<{Entity}, {Entity}Model> {Entity}Service
         )
         {
             _cityService = cityService;
             _countryService = countryService;
 
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //_ManyToManyRecordService = ManyToManyRecordService;
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //_{Entity}Service = {Entity}Service;
         }
 
         // GET: Cities
@@ -56,8 +58,8 @@ namespace MVC.Controllers
             // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
             ViewData["CountryId"] = new SelectList(_countryService.Query().ToList(), "Record.Id", "Name");
             
-            /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //ViewBag.ManyToManyRecordIds = new MultiSelectList(_ManyToManyRecordService.Query().ToList(), "Record.Id", "Name");
+            /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
+            //ViewBag.{Entity}Ids = new MultiSelectList(_{Entity}Service.Query().ToList(), "Record.Id", "Name");
         }
 
         // GET: Cities/Create
@@ -139,7 +141,8 @@ namespace MVC.Controllers
         // GET: Cities/Get?countryId=1
         public JsonResult Get(int? countryId)
         {
-            var cities = _cityService.GetList(countryId);
+            var cityService = _cityService as CityService;
+            var cities = cityService.GetList(countryId);
             return Json(cities.Select(c => new
             {
                 value = c.Record.Id,
