@@ -20,7 +20,7 @@ builder.Services.AddScoped<IService<City, CityModel>, CityService>();
 builder.Services.AddScoped<IService<Product, ProductModel>, ProductService>();
 builder.Services.AddScoped<IService<User, UserModel>, UserService>();
 builder.Services.AddScoped<IService<Role, RoleModel>, RoleService>();
-builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddSingleton<HttpServiceBase, HttpService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(config =>
@@ -33,7 +33,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddSession(config =>
 {
     config.IdleTimeout = TimeSpan.FromMinutes(30);
-    config.IOTimeout = Timeout.InfiniteTimeSpan;
 });
 
 var app = builder.Build();

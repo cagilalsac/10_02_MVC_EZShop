@@ -1,19 +1,16 @@
-﻿using BLL.DAL;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace BLL.Models
 {
     public class CartItemModel
     {
-        public Product Record { get; set; }
-
         [DisplayName("Product")]
-        public string ProductName => Record.Name;
+        public string ProductName { get; set; }
 
         [DisplayName("Product Unit Price")]
-        public decimal ProductUnitPrice => Record.UnitPrice;
+        public decimal ProductUnitPrice { get; set; }
 
-        public int ProductId => Record.Id;
+        public int ProductId { get; set; }
         public int UserId { get; set; }
     }
 

@@ -74,7 +74,7 @@
                             <div class="text-truncate" data-i18n="Products">Products</div>
                         </a>
                     </li>
-                    @if (User.IsInRole("User"))
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <li class="menu-item">
                             <a asp-area="" asp-action="IndexGroupBy" asp-controller="Cart" class="menu-link">
@@ -82,47 +82,47 @@
                                 <div class="text-truncate" data-i18n="Cart">Cart</div>
                             </a>
                         </li>
-                    }
-                    else if (User.IsInRole("Admin"))
-                    {
-                        <li class="menu-item">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-menu"></i>
-                                <div class="text-truncate" data-i18n="Admin">Admin</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item">
-                                    <a asp-area="" asp-action="Index" asp-controller="Categories" class="menu-link">
-                                        <div class="text-truncate" data-i18n="Categories">Categories</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-action="Index" asp-controller="Stores" class="menu-link">
-                                        <div class="text-truncate" data-i18n="Stores">Stores</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-action="Index" asp-controller="Countries" class="menu-link">
-                                        <div class="text-truncate" data-i18n="Countries">Countries</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-action="Index" asp-controller="Cities" class="menu-link">
-                                        <div class="text-truncate" data-i18n="Cities">Cities</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-action="Index" asp-controller="Roles" class="menu-link">
-                                        <div class="text-truncate" data-i18n="Roles">Roles</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-action="Index" asp-controller="Users" class="menu-link">
-                                        <div class="text-truncate" data-i18n="Users">Users</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li class="menu-item">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <i class="menu-icon tf-icons bx bx-menu"></i>
+                                    <div class="text-truncate" data-i18n="Admin">Admin</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item">
+                                        <a asp-area="" asp-action="Index" asp-controller="Categories" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Categories">Categories</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a asp-area="" asp-action="Index" asp-controller="Stores" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Stores">Stores</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a asp-area="" asp-action="Index" asp-controller="Countries" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Countries">Countries</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a asp-area="" asp-action="Index" asp-controller="Cities" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Cities">Cities</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a asp-area="" asp-action="Index" asp-controller="Roles" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Roles">Roles</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a asp-area="" asp-action="Index" asp-controller="Users" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Users">Users</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
                     }
                 </ul>
             </aside>

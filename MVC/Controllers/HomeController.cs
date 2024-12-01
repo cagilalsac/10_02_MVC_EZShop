@@ -1,10 +1,11 @@
+using BLL.Controllers.Bases;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
 using System.Diagnostics;
 
 namespace MVC.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : MvcController
     {
         private readonly ILogger<HomeController> _logger;
 
